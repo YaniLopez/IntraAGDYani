@@ -6,5 +6,6 @@ Route::get('/', function () {
 
 Route::resource('shares', 'ShareController');
 Route::resource('noticias', 'NoticiaController');
-Route::resource('tags', 'NoticiaController');
-Route::resource('areas', 'NoticiaController');
+Route::resource('tags', 'TagController');
+Route::resource('areas', 'AreaController');
+Route::resource('usuarios', 'usuarioController');
