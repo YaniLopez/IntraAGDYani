@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Share;
+use App\Tag;
+use DB;
 
 class TagController extends Controller
 {
@@ -14,9 +15,18 @@ class TagController extends Controller
      */
     public function index()
     {
-        $shares = Share::all();
+      $tags = DB::table('tbl_tag')
+      ->select( 'tbl_tag.id_tag','tbl_tag.nom_tag',
+	DB::raw('(case 
+    	when id_nov is NULL then "permite_borrar"
+          else "no_permite_borrar"
+	        end) AS valor'))
+    ->leftJoin('tbl_novedad','tbl_novedad.id_tag','=','tbl_tag.id_tag')
+    ->orderBy('tbl_tag.id_tag')
+    ->get();
+      $tags = Tag::all();
 
-        return view('tags.index', compact('shares'));
+        return view('tags.index', compact('tags'));
     }
 
     /**
@@ -38,17 +48,13 @@ class TagController extends Controller
     public function store(Request $request)
     {
             $request->validate([
-              'share_name'=>'required',
-              'share_price'=> 'required|integer',
-              'share_qty' => 'required|integer'
+              'tags'=> 'required'
             ]);
-            $share = new Share([
-              'share_name' => $request->get('share_name'),
-              'share_price'=> $request->get('share_price'),
-              'share_qty'=> $request->get('share_qty')
-            ]);
-            $share->save();
-            return redirect('/tags')->with('success', 'Stock has been added');
+            $tags = new Tag([
+              'nom_tag' => $request->get('tags')
+             ]);
+            $tags->save();
+            return redirect('/tags')->with('success', 'Tag guardado correctamente');
     }
 
     /**
@@ -70,9 +76,9 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $share = Share::find($id);
+        $tags = tag::find($id);
 
-        return view('tags.edit', compact('share'));
+        return view('tags.edit', compact('tags'));
     }
 
     /**
@@ -85,18 +91,13 @@ class TagController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-          'share_name'=>'required',
-          'share_price'=> 'required|integer',
-          'share_qty' => 'required|integer'
+          'nom_tag'=>'required'
         ]);
+        $tags = tag::find($id);
+        $tags->nom_tag = $request->get('tags');
+        $tags->save();
   
-        $share = Share::find($id);
-        $share->share_name = $request->get('share_name');
-        $share->share_price = $request->get('share_price');
-        $share->share_qty = $request->get('share_qty');
-        $share->save();
-  
-        return redirect('/tags')->with('success', 'Stock has been updated');
+        return redirect('/tags')->with('success', 'Tag Modificado');
     }
 
     /**
@@ -107,9 +108,9 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        $share = Share::find($id);
-        $share->delete();
+        $tags = Tag::find($id);
+        $tags->delete();
 
-      return redirect('/shares')->with('success', 'Stock has been deleted Successfully');
+      return redirect('/tags')->with('success', 'Tag eliminado correctamente');
     }
 }

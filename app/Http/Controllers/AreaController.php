@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Share;
+use App\Area;
+use DB; 
 
 class AreaController extends Controller
 {
@@ -15,9 +16,20 @@ class AreaController extends Controller
      */
     public function index()
     {
-        $shares = Share::all();
-
-        return view('areas.index', compact('shares'));
+        
+        $areas = DB::table('tbl_area')
+        ->select('tbl_area.id_area','tbl_area.nom_area','tbl_area.descripcion_area',
+        DB::raw('(case 
+        when id_jefe is NULL or id_subarea is NULL then "permite_borrar"
+          else "no_permite_borrar"
+        end) AS valor'))
+        ->leftJoin('tbl_subarea','tbl_subarea.id_area','=','tbl_area.id_area')
+        ->leftJoin('tbl_jefe','tbl_jefe.id_area','=','tbl_area.id_area')
+        //->groupBy('tbl_area.id_area')
+        ->orderBy('tbl_area.id_area', 'desc')
+        ->get();
+    
+        return view('areas.index', compact('areas'));
     }
 
     /**
@@ -39,17 +51,15 @@ class AreaController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'area'=> 'required',
+        'descripcion' => 'required' 
       ]);
-      $share = new Share([
-        'share_name' => $request->get('share_name'),
-        'share_price'=> $request->get('share_price'),
-        'share_qty'=> $request->get('share_qty')
+      $areas = new Area([
+        'nom_area'=> $request->get('area'),
+        'descripcion_area'=> $request->get('descripcion')
       ]);
-      $share->save();
-      return redirect('/areas')->with('success', 'Stock has been added');
+      $areas->save();
+      return redirect('/areas')->with('success', 'Se ha guardado una nueva área');
     }
 
     /**
@@ -71,9 +81,9 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        $share = Share::find($id);
+        $area = Area::find($id);
 
-        return view('areas.edit', compact('share'));
+        return view('areas.edit', compact('area'));
     }
 
     /**
@@ -86,18 +96,16 @@ class AreaController extends Controller
     public function update(Request $request, $id)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'area'=> 'required',
+        'descripcion' => 'required'
       ]);
 
-      $share = Share::find($id);
-      $share->share_name = $request->get('share_name');
-      $share->share_price = $request->get('share_price');
-      $share->share_qty = $request->get('share_qty');
-      $share->save();
+      $areas = Area::find($id);
+      $areas->nom_area = $request->get('area');
+      $areas->descripcion_area = $request->get('descripcion');
+      $areas->save();
 
-      return redirect('/areas')->with('success', 'Stock has been updated');
+      return redirect('/areas')->with('success', 'Área modificada');
     }
 
     /**
@@ -108,9 +116,9 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        $share = Share::find($id);
-        $share->delete();
+        $area = Area::find($id);
+        $area->delete();
 
-      return redirect('/areas')->with('success', 'Stock has been deleted Successfully');
+      return redirect('/areas')->with('success', 'El área fue eliminada correctamente ');
     }
 }

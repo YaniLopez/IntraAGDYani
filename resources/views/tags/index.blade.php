@@ -12,29 +12,24 @@
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  <div class="row"><a href="{{ route('tags.create')}}" class="btn btn-primary">Crear</a></div>
   <table class="table table-striped">
     <thead>
         <tr>
-          <td>ID</td>
-          <td>Stock Name</td>
-          <td>Stock Price</td>
-          <td>Stock Quantity</td>
+          <td>Tags</td>
           <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
-        @foreach($shares as $share)
+        @foreach($tags as $tag)
         <tr>
-            <td>{{$share->id}}</td>
-            <td>{{$share->share_name}}</td>
-            <td>{{$share->share_price}}</td>
-            <td>{{$share->share_qty}}</td>
-            <td><a href="{{ route('tags.edit',$share->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$tag->nom_tag}}</td>
+          <td><a href="{{ route('tags.edit',$tag->id_tag)}}" class="btn btn-primary">Editar</a></td>
             <td>
-                <form action="{{ route('tags.destroy', $share->id)}}" method="post">
+                <form action="{{ route('tags.destroy', $tag->id_tag)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">Borrar</button>
                 </form>
             </td>
         </tr>

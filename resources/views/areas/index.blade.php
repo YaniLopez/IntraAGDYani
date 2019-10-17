@@ -12,29 +12,43 @@
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  <div class="row"><a href="{{ route('areas.create')}}" class="btn btn-primary">Crear</a></div>
   <table class="table table-striped">
     <thead>
         <tr>
           <td>ID</td>
-          <td>Stock Name</td>
-          <td>Stock Price</td>
-          <td>Stock Quantity</td>
+          <td>Area</td>
+          <td>Descripcion</td>
           <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
-        @foreach($shares as $share)
+        @foreach($areas as $area)
         <tr>
-            <td>{{$share->id}}</td>
-            <td>{{$share->share_name}}</td>
-            <td>{{$share->share_price}}</td>
-            <td>{{$share->share_qty}}</td>
-            <td><a href="{{ route('areas.edit',$share->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$area->id_area}}</td>
+            <td>{{$area->nom_area}}</td>
+            <td>{{$area->descripcion_area}}</td>
+            <td><a href="{{ route('areas.edit',$area->id_area)}}" class="btn btn-primary">Editar</a></td>
             <td>
-                <form action="{{ route('areas.destroy', $share->id)}}" method="post">
+                <form action="{{ route('areas.destroy', $area->id_area)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+
+                  <?php 
+                  
+                  if($area->valor === 'permite_borrar'){
+                    ?> 
+                      <button class="btn btn-danger" type="submit"> Borrar </button> 
+                    <?php
+                  } else {
+                    ?> 
+                      <button class="btn btn-default" disabled> Borrar </button> 
+                    <?php
+                  }
+                  
+                  ?>
+
+                  
                 </form>
             </td>
         </tr>

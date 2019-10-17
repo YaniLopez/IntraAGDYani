@@ -8,7 +8,7 @@
 </style>
 <div class="card uper">
   <div class="card-header">
-    Edit Share
+    EDITAR
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -20,22 +20,22 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('noticias.update', $share->id) }}">
+      <form method="post" action="{{ route('noticias.update', $noticia->id_nov) }}">
         @method('PATCH')
         @csrf
         <div class="form-group">
-          <label for="name">Share Name:</label>
-          <input type="text" class="form-control" name="share_name" value={{ $share->share_name }} />
+          <label for="name">Título:</label>
+          <input type="text" class="form-control" name="titulo_nov" value={{ $noticia->titulo_nov }} />
         </div>
         <div class="form-group">
-          <label for="price">Share Price :</label>
-          <input type="text" class="form-control" name="share_price" value={{ $share->share_price }} />
+          <label for="price">Descripción :</label>
+          <input type="text" class="form-control" name="descripcion_nov" value={{ $noticia->descripcion_nov }} />
         </div>
         <div class="form-group">
-          <label for="quantity">Share Quantity:</label>
-          <input type="text" class="form-control" name="share_qty" value={{ $share->share_qty }} />
+          <label for="quantity">Imagen:</label>
+          <input type="text" class="form-control" name="img_nov" value={{ $noticia->img_nov }} />
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary">Modificar</button>
       </form>
   </div>
 </div>

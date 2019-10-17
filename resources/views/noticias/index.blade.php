@@ -12,29 +12,34 @@
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  <div class="row"><a href="{{ route('noticias.create')}}" class="btn btn-primary">Crear</a></div>
+
   <table class="table table-striped">
     <thead>
         <tr>
           <td>ID</td>
-          <td>Stock Name</td>
-          <td>Stock Price</td>
-          <td>Stock Quantity</td>
+          <td>Titulo</td>
+          <td>Descripcion</td>
+          <td>Imagen</td>
           <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
-        @foreach($shares as $share)
+        @foreach($noticias as $noticia)
+        
         <tr>
-            <td>{{$share->id}}</td>
-            <td>{{$share->share_name}}</td>
-            <td>{{$share->share_price}}</td>
-            <td>{{$share->share_qty}}</td>
-            <td><a href="{{ route('noticias.edit',$share->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$noticia->id_nov}}</td>
+            <td>{{$noticia->titulo_nov}}</td>
+            <td>{{$noticia->descripcion_nov}}</td>
             <td>
-                <form action="{{ route('noticias.destroy', $share->id)}}" method="post">
+            <img src="{{$noticia->img_nov}}" alt="Smiley face" height="42" width="42">
+            </td>
+            <td><a href="{{ route('noticias.edit',$noticia->id_nov)}}" class="btn btn-primary">Editar</a></td>
+            <td>
+                <form action="{{ route('noticias.destroy', $noticia->id_nov)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">Borrar</button>
                 </form>
             </td>
         </tr>

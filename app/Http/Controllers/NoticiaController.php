@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Share;
+use App\Noticia;
 
 class NoticiaController extends Controller
 {
@@ -15,9 +15,9 @@ class NoticiaController extends Controller
      */
     public function index()
     {
-        $shares = Share::all();
+        $noticias = Noticia::all();
 
-        return view('noticias.index', compact('shares'));
+        return view('noticias.index', compact('noticias'));
     }
 
     /**
@@ -39,17 +39,17 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'titulo'=>'required',
+        'descripcion'=> 'required',
+        'imagen' => 'required'
       ]);
-      $share = new Share([
-        'share_name' => $request->get('share_name'),
-        'share_price'=> $request->get('share_price'),
-        'share_qty'=> $request->get('share_qty')
+      $noticia = new Noticia([
+        'titulo_nov' => $request->get('titulo'),
+        'descripcion_nov'=> $request->get('descripcion'),
+        'img_nov'=> $request->get('imagen')
       ]);
-      $share->save();
-      return redirect('/noticias')->with('success', 'Stock has been added');
+      $noticia->save();
+      return redirect('/noticias')->with('success', 'Se ha guardado una nueva noticia');
     }
 
     /**
@@ -71,9 +71,9 @@ class NoticiaController extends Controller
      */
     public function edit($id)
     {
-        $share = Share::find($id);
+        $noticia = Noticia::find($id);
 
-        return view('noticias.edit', compact('share'));
+        return view('noticias.edit', compact('noticia'));
     }
 
     /**
@@ -86,18 +86,18 @@ class NoticiaController extends Controller
     public function update(Request $request, $id)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'titulo_nov'=>'required',
+        'descripcion_nov'=> 'required',
+        'img_nov' => 'required'
       ]);
 
-      $share = Share::find($id);
-      $share->share_name = $request->get('share_name');
-      $share->share_price = $request->get('share_price');
-      $share->share_qty = $request->get('share_qty');
-      $share->save();
+      $noticia = Noticia::find($id);
+      $noticia->titulo_nov = $request->get('titulo_nov');
+      $noticia->descripcion_nov = $request->get('descripcion_nov');
+      $noticia->img_nov = $request->get('img_nov');
+      $noticia->save();
 
-      return redirect('/noticias')->with('success', 'Stock has been updated');
+      return redirect('/noticias')->with('success', 'Noticia modificada');
     }
 
     /**
@@ -108,9 +108,9 @@ class NoticiaController extends Controller
      */
     public function destroy($id)
     {
-        $share = Share::find($id);
-        $share->delete();
+        $noticia = Noticia::find($id);
+        $noticia->delete();
 
-      return redirect('/noticias')->with('success', 'Stock has been deleted Successfully');
+      return redirect('/noticias')->with('success', 'La noticia fue eliminada correctamente');
     }
 }

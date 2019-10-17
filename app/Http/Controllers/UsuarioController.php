@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Share;
+use App\Usuario;
+use DB; 
 
 class UsuarioController extends Controller
 {
@@ -15,9 +16,22 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $shares = Share::all();
+        $usuarios = Usuario::all();
+        $usuarios = DB::table('tbl_usuario')
+        ->select('tbl_usuario.id_user','tbl_usuario.nom_user','tbl_usuario.leg_user',
+        DB::raw('(case 
+        when tbl_usuario.id_user is NULL then "permite_borrar"
+          else "no_permite_borrar"
+        end) AS valor'))
+        ->leftJoin ('tbl_subarea','tbl_subarea.id_subarea','=','tbl_usuario.id_subarea')
+        ->leftJoin ('tbl_novedad','tbl_novedad.id_user','=','tbl_usuario.id_user')
+        ->leftJoin ('tbl_user_rol','tbl_user_rol.id_user','=','tbl_usuario.id_user')
+        
+        //->groupBy('tbl_area.id_area')
+        ->orderBy('tbl_usuario.id_user')
+        ->get();
 
-        return view('usuarios.index', compact('shares'));
+        return view('usuarios.index', compact('usuario'));
     }
 
     /**
@@ -39,17 +53,15 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'nombre' => 'required',
+        'legajo' => 'required'
       ]);
-      $share = new Share([
-        'share_name' => $request->get('share_name'),
-        'share_price'=> $request->get('share_price'),
-        'share_qty'=> $request->get('share_qty')
+      $usuarios = new Usuario([
+        'nom_user'=> $request->get('nombre'),
+        'leg_user'=> $request->get('legajo')
       ]);
-      $share->save();
-      return redirect('/usuarios')->with('success', 'Stock has been added');
+      $usuarios->save();
+      return redirect('/usuarios')->with('success', 'Se ha guardado un nuevo usuario');
     }
 
     /**
@@ -71,9 +83,9 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $share = Share::find($id);
+        $usuarios = Usuario::find($id);
 
-        return view('usuarios.edit', compact('share'));
+        return view('usuarios.edit', compact('usuario'));
     }
 
     /**
@@ -86,18 +98,16 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
       $request->validate([
-        'share_name'=>'required',
-        'share_price'=> 'required|integer',
-        'share_qty' => 'required|integer'
+        'nombre' => 'required',
+        'legajo' => 'required'
       ]);
 
-      $share = Share::find($id);
-      $share->share_name = $request->get('share_name');
-      $share->share_price = $request->get('share_price');
-      $share->share_qty = $request->get('share_qty');
-      $share->save();
+      $usuarios = Usuario::find($id);
+      $usuarios->nom_user = $request->get('nombre');
+      $usuarios->leg_user = $request->get('legajo');
+      $usuarios->save();
 
-      return redirect('/usuarios')->with('success', 'Stock has been updated');
+      return redirect('/usuarios')->with('success', 'El usuario ha sido modificado correctamente');
     }
 
     /**
@@ -108,9 +118,9 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        $share = Share::find($id);
-        $share->delete();
+        $usuarios = Usuario::find($id);
+        $usuarios->delete();
 
-      return redirect('/usuarios')->with('success', 'Stock has been deleted Successfully');
+      return redirect('/usuarios')->with('success', 'El usuario fue eliminado correctamente');
     }   
 }

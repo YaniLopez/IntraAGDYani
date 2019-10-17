@@ -8,7 +8,7 @@
 </style>
 <div class="card uper">
   <div class="card-header">
-    Add Share
+    Crear Noticia
   </div>
   <div class="card-body">
     @if ($errors->any())
@@ -23,18 +23,18 @@
       <form method="post" action="{{ route('noticias.store') }}">
           <div class="form-group">
               {{ csrf_field() }}
-              <label for="name">Share Name:</label>
-              <input type="text" class="form-control" name="share_name"/>
+              <label for="name"> Título:</label>
+              <input type="text" class="form-control" name="titulo"/>
           </div>
           <div class="form-group">
-              <label for="price">Share Price :</label>
-              <input type="text" class="form-control" name="share_price"/>
+              <label for="price">Descripción :</label>
+              <input type="text" class="form-control" name="descripcion"/>
           </div>
           <div class="form-group">
-              <label for="quantity">Share Quantity:</label>
-              <input type="text" class="form-control" name="share_qty"/>
+              <label for="quantity">Imagen:</label>
+              <input type="text" class="form-control" name="imagen"/>
           </div>
-          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
       </form>
   </div>
 </div>

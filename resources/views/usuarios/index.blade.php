@@ -12,6 +12,7 @@
       {{ session()->get('success') }}  
     </div><br />
   @endif
+  <div class="row"><a href="{{ route('usuarios.create')}}" class="btn btn-primary">Crear</a></div>
   <table class="table table-striped">
     <thead>
         <tr>
@@ -23,18 +24,17 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($shares as $share)
+        @foreach($usuarios as $usuario)
         <tr>
-            <td>{{$share->id}}</td>
-            <td>{{$share->share_name}}</td>
-            <td>{{$share->share_price}}</td>
-            <td>{{$share->share_qty}}</td>
-            <td><a href="{{ route('areas.edit',$share->id)}}" class="btn btn-primary">Edit</a></td>
+            <td>{{$usuario->nom_user}}</td>
+            <td>{{$usuario->leg_user}}</td>
+            
+            <td><a href="{{ route('usuarios.edit',$usuario->id_user)}}" class="btn btn-primary">Editar</a></td>
             <td>
-                <form action="{{ route('areas.destroy', $share->id)}}" method="post">
+                <form action="{{ route('usuarios.destroy',$usuario->id_user)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">Delete</button>
+                  <button class="btn btn-danger" type="submit">>Borrar</button>
                 </form>
             </td>
         </tr>
