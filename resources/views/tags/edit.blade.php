@@ -20,12 +20,12 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('tags.update', $tag->id_tag) }}">
+        <form method="post" action="{{ route('tags.update', $tags->id_tag) }}">
         @method('PATCH')
         @csrf
         <div class="form-group">
-          <label for="name">Tags:</label>
-          <input type="text" class="form-control" name="tag" value={{ $share->nom_tag }} />
+          <label for="quantity">Tags:</label>
+          <input type="text" class="form-control" name="nom_tag" value={{ $tags->nom_tag}} />
         </div>
         <button type="submit" class="btn btn-primary">Modificar</button>
       </form>

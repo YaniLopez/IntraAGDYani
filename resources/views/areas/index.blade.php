@@ -17,9 +17,9 @@
     <thead>
         <tr>
           <td>ID</td>
-          <td>Area</td>
-          <td>Descripcion</td>
-          <td colspan="2">Action</td>
+          <td>Área</td>
+          <td>Descripción</td>
+          
         </tr>
     </thead>
     <tbody>

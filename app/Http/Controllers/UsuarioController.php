@@ -16,7 +16,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all();
+        //$usuarios = Usuario::all();
         $usuarios = DB::table('tbl_usuario')
         ->select('tbl_usuario.id_user','tbl_usuario.nom_user','tbl_usuario.leg_user',
         DB::raw('(case 
@@ -31,7 +31,7 @@ class UsuarioController extends Controller
         ->orderBy('tbl_usuario.id_user')
         ->get();
 
-        return view('usuarios.index', compact('usuario'));
+        return view('usuarios.index', compact('usuarios'));
     }
 
     /**
@@ -53,12 +53,13 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'nombre' => 'required',
+        'usuario' => 'required',
         'legajo' => 'required'
       ]);
       $usuarios = new Usuario([
-        'nom_user'=> $request->get('nombre'),
-        'leg_user'=> $request->get('legajo')
+        'nom_user'=> $request->get('usuario'),
+        'leg_user'=> $request->get('legajo'),
+        'id_subarea'=> 1
       ]);
       $usuarios->save();
       return redirect('/usuarios')->with('success', 'Se ha guardado un nuevo usuario');
@@ -83,7 +84,7 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        $usuarios = Usuario::find($id);
+        $usuario = Usuario::find($id);
 
         return view('usuarios.edit', compact('usuario'));
     }
@@ -98,12 +99,12 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
       $request->validate([
-        'nombre' => 'required',
+        'usuario' => 'required',
         'legajo' => 'required'
       ]);
 
       $usuarios = Usuario::find($id);
-      $usuarios->nom_user = $request->get('nombre');
+      $usuarios->nom_user = $request->get('usuario');
       $usuarios->leg_user = $request->get('legajo');
       $usuarios->save();
 

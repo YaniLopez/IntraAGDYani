@@ -17,19 +17,20 @@
     <thead>
         <tr>
           <td>Tags</td>
-          <td colspan="2">Action</td>
+          
         </tr>
     </thead>
     <tbody>
         @foreach($tags as $tag)
         <tr>
-            <td>{{$tag->nom_tag}}</td>
+      <td>{{$tag->nom_tag}}</td>
           <td><a href="{{ route('tags.edit',$tag->id_tag)}}" class="btn btn-primary">Editar</a></td>
             <td>
-                <form action="{{ route('tags.destroy', $tag->id_tag)}}" method="post">
+            <form action="{{ route('tags.destroy', $tag->id_tag)}}" method="post">
                   @csrf
                   @method('DELETE')
                   <button class="btn btn-danger" type="submit">Borrar</button>
+                  
                 </form>
             </td>
         </tr>

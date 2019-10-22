@@ -16,12 +16,9 @@
   <table class="table table-striped">
     <thead>
         <tr>
-          <td>ID</td>
-          <td>Stock Name</td>
-          <td>Stock Price</td>
-          <td>Stock Quantity</td>
-          <td colspan="2">Action</td>
-        </tr>
+          <td>NOMBRE</td>
+          <td>LEGAJO</td>
+          </tr>
     </thead>
     <tbody>
         @foreach($usuarios as $usuario)
@@ -34,7 +31,7 @@
                 <form action="{{ route('usuarios.destroy',$usuario->id_user)}}" method="post">
                   @csrf
                   @method('DELETE')
-                  <button class="btn btn-danger" type="submit">>Borrar</button>
+                  <button class="btn btn-danger" type="submit">Borrar</button>
                 </form>
             </td>
         </tr>

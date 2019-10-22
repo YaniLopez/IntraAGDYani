@@ -23,8 +23,8 @@
       <form method="post" action="{{ route('tags.store') }}">
            <div class="form-group">
             {{ csrf_field() }}
-            <label for="name">Tag:</label>
-             <input type="text" class="form-control" name="tag"/>
+            <label for="name"> Tags:</label>
+              <input type="text" class="form-control" name="tags"/>
     </div>
     <button type="submit" class="btn btn-primary">Guardar</button>
       </form>

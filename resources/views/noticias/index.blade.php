@@ -17,11 +17,10 @@
   <table class="table table-striped">
     <thead>
         <tr>
-          <td>ID</td>
-          <td>Titulo</td>
-          <td>Descripcion</td>
-          <td>Imagen</td>
-          <td colspan="2">Action</td>
+          <td>Id</td>
+          <td>Descripción</td>
+          <td>Localidad</td>
+          <td colspan="2">Imagen</td>
         </tr>
     </thead>
     <tbody>

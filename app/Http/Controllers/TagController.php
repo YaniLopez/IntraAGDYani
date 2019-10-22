@@ -15,6 +15,10 @@ class TagController extends Controller
      */
     public function index()
     {
+      $tags = Tag::all();    
+      
+      return view('tags.index', compact('tags'));
+
       $tags = DB::table('tbl_tag')
       ->select( 'tbl_tag.id_tag','tbl_tag.nom_tag',
 	DB::raw('(case 
@@ -24,9 +28,7 @@ class TagController extends Controller
     ->leftJoin('tbl_novedad','tbl_novedad.id_tag','=','tbl_tag.id_tag')
     ->orderBy('tbl_tag.id_tag')
     ->get();
-      $tags = Tag::all();
-
-        return view('tags.index', compact('tags'));
+          
     }
 
     /**
@@ -93,8 +95,9 @@ class TagController extends Controller
         $request->validate([
           'nom_tag'=>'required'
         ]);
+
         $tags = tag::find($id);
-        $tags->nom_tag = $request->get('tags');
+        $tags->nom_tag = $request->get('nom_tag');
         $tags->save();
   
         return redirect('/tags')->with('success', 'Tag Modificado');
