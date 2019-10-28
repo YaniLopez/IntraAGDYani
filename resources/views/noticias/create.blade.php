@@ -34,6 +34,26 @@
               <label for="quantity">Imagen:</label>
               <input type="text" class="form-control" name="imagen"/>
           </div>
+
+          <div class="form-group">
+              <label for="estado">Estado</label>
+              <select class="form-control" name="estado">
+                <option value="1">Publicada</option>
+                <option value="2">No publicada</option>
+              </select>
+          </div>
+
+          <div 
+          <select class="form-subarea" name = "id_subarea">
+          <option> Seleccionar área </option>
+              @foreach ($subarea as $key => $value)
+                <option value = "{{ $key }}" {{($key == $id_subarea)? 'selected' : '' }}> 
+                    {{$value}} 
+                </option>
+              @endforeach   
+          </select>
+          </div>
+
           <button type="submit" class="btn btn-primary">Guardar</button>
       </form>
   </div>

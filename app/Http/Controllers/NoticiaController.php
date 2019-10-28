@@ -27,7 +27,10 @@ class NoticiaController extends Controller
      */
     public function create()
     {
-        return view('noticias.create');
+
+      $subarea = '';
+
+        return view('noticias.create', compact('subarea'));
     }
 
     /**

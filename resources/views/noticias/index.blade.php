@@ -31,7 +31,7 @@
             <td>{{$noticia->titulo_nov}}</td>
             <td>{{$noticia->descripcion_nov}}</td>
             <td>
-            <img src="{{$noticia->img_nov}}" alt="Smiley face" height="42" width="42">
+            <img src="{{$noticia->img_nov}}" alt="Smiley face" height="42" width="50">
             </td>
             <td><a href="{{ route('noticias.edit',$noticia->id_nov)}}" class="btn btn-primary">Editar</a></td>
             <td>
